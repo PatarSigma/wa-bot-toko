@@ -30,6 +30,8 @@ Ketik perintah di bawah ini (pakai titik di depan):
 
 _Bot aktif 24 jam, fast response, dan tidak menerima panggilan telepon._`;
 
+let isRestarting = false;
+
 async function startBot() {
   // Pakai path dari environment variable kalau ada (misal saat deploy di Railway
   // dengan volume di /app/session), kalau tidak ada pakai folder lokal ./session
@@ -60,8 +62,6 @@ async function startBot() {
         console.log('Buka WhatsApp di HP -> Perangkat Tertaut -> Tautkan dengan nomor telepon -> masukkan kode di atas.\n');
       } catch (err) {
         console.error('[PAIRING] Gagal minta kode pairing:', err.message);
-        console.log('Mencoba lagi dalam 5 detik...');
-        setTimeout(() => startBot(), 5000);
       }
     }, 3000);
   }
@@ -74,7 +74,13 @@ async function startBot() {
       const shouldReconnect =
         lastDisconnect?.error?.output?.statusCode !== DisconnectReason.loggedOut;
       console.log('Koneksi terputus.', shouldReconnect ? 'Menyambung ulang...' : 'Logout, hapus folder session lalu jalankan ulang.');
-      if (shouldReconnect) startBot();
+      if (shouldReconnect && !isRestarting) {
+        isRestarting = true;
+        setTimeout(() => {
+          isRestarting = false;
+          startBot();
+        }, 3000);
+      }
     } else if (connection === 'open') {
       console.log('✅ Bot berhasil terhubung ke WhatsApp!');
     }
