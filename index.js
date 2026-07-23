@@ -48,9 +48,22 @@ async function startBot() {
   // === Login pakai Pairing Code (tidak perlu scan QR) ===
   if (!sock.authState.creds.registered) {
     const phoneNumber = config.botNumber || (await question('Masukkan nomor WA bot (contoh 6281234567890): '));
-    const code = await sock.requestPairingCode(phoneNumber.trim());
-    console.log(`\n=== KODE PAIRING KAMU: ${code} ===`);
-    console.log('Buka WhatsApp di HP -> Perangkat Tertaut -> Tautkan dengan nomor telepon -> masukkan kode di atas.\n');
+    const cleanNumber = phoneNumber.replace(/[^0-9]/g, ''); // buang spasi/tanda + dll
+
+    // Tunggu sebentar dulu sebelum minta kode pairing, supaya koneksi socket
+    // ke server WhatsApp benar-benar siap (penting saat deploy di server cloud
+    // seperti Railway, kalau tidak sering muncul error 428 Precondition Required)
+    setTimeout(async () => {
+      try {
+        const code = await sock.requestPairingCode(cleanNumber);
+        console.log(`\n=== KODE PAIRING KAMU: ${code} ===`);
+        console.log('Buka WhatsApp di HP -> Perangkat Tertaut -> Tautkan dengan nomor telepon -> masukkan kode di atas.\n');
+      } catch (err) {
+        console.error('[PAIRING] Gagal minta kode pairing:', err.message);
+        console.log('Mencoba lagi dalam 5 detik...');
+        setTimeout(() => startBot(), 5000);
+      }
+    }, 3000);
   }
 
   sock.ev.on('creds.update', saveCreds);
