@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('../config');
 
-const IMAGES_DIR = path.join(__dirname, '..', 'products', 'images');
+const IMAGES_DIR = path.join(__dirname, '..');
 
 async function sendStoreMenu(sock, chatId, msg) {
   const rows = Object.entries(config.categories).map(([key, cat]) => ({
