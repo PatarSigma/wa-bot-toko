@@ -23,6 +23,7 @@ Ketik perintah di bawah ini (pakai titik di depan):
 
 🤖 *.ai <pertanyaan>* — Ngobrol dengan AI
 🖼️ *.sticker* — Kirim/reply foto lalu ketik .sticker
+🔤 *.teks <tulisan>* — Bikin stiker teks background putih
 🎵 *.tiktok <link>* — Download video TikTok tanpa watermark
 📸 *.ig <link>* — Download foto/video Instagram
 🛒 *.toko* — Buka menu toko & lihat produk
