@@ -94,7 +94,10 @@ async function startBot() {
   sock.ev.on('messages.upsert', async ({ messages, type }) => {
     if (type !== 'notify') return;
     const msg = messages[0];
-    if (!msg.message || msg.key.fromMe) return;
+    if (!msg.message) return;
+    // Catatan: pesan dari nomor sendiri (fromMe) TETAP diproses, supaya owner
+    // bisa memakai command bot dari nomor yang sama. Aman karena command hanya
+    // terpicu kalau pesannya diawali prefix titik (.), pesan biasa tetap diabaikan.
 
     const chatId = msg.key.remoteJid;
     const body =
