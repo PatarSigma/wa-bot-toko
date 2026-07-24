@@ -3,6 +3,7 @@ const path = require('path');
 const config = require('../config');
 
 const IMAGES_DIR = path.join(__dirname, '..');
+const QRIS_PATH = path.join(__dirname, '..', 'payment', 'qris.jpg');
 
 /**
  * Kirim menu kategori toko.
