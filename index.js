@@ -145,7 +145,13 @@ async function startBot() {
             await sock.sendMessage(chatId, { text: 'Kirim foto/video lalu caption *.sticker*, atau reply foto/video dengan *.sticker*' }, { quoted: msg });
             break;
           }
-          await makeSticker(sock, msg, mediaMsg);
+          try {
+            const { makeSticker } = require('./handlers/stickerHandler');
+            await makeSticker(sock, msg, mediaMsg);
+          } catch (err) {
+            console.error('[STICKER] Modul sticker gagal dimuat:', err.message);
+            await sock.sendMessage(chatId, { text: '⚠️ Fitur sticker sedang tidak tersedia di server ini.' }, { quoted: msg });
+          }
           break;
         }
 
