@@ -3,6 +3,7 @@ const {
   useMultiFileAuthState,
   DisconnectReason,
   fetchLatestBaileysVersion,
+  Browsers,
 } = require('@whiskeysockets/baileys');
 const pino = require('pino');
 const readline = require('readline');
@@ -43,7 +44,7 @@ async function startBot() {
     auth: state,
     logger: pino({ level: 'silent' }),
     printQRInTerminal: false,
-    browser: ['Bot Toko', 'Chrome', '1.0.0'],
+    browser: Browsers.ubuntu('Chrome'),
   });
 
   // === Login pakai Pairing Code (tidak perlu scan QR) ===
