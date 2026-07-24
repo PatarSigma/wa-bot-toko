@@ -219,4 +219,16 @@ async function startBot() {
   });
 }
 
-startBot();
+// Mode khusus: kalau environment variable UPLOAD_MODE=true, bot TIDAK akan
+// coba connect ke WhatsApp sama sekali. Ini dipakai sementara supaya container
+// di Railway tetap hidup terus (tidak crash/exit), sehingga tab Console bisa
+// dipakai untuk upload file session secara manual. Setelah selesai upload,
+// hapus/set UPLOAD_MODE=false lagi di Variables Railway, lalu redeploy.
+if (process.env.UPLOAD_MODE === 'true') {
+  console.log('🔧 UPLOAD_MODE aktif — bot TIDAK connect ke WhatsApp.');
+  console.log('Silakan upload file session lewat tab Console Railway sekarang.');
+  console.log('Setelah selesai, ubah UPLOAD_MODE jadi false di Variables, lalu redeploy.');
+  setInterval(() => {}, 60000); // biar proses tetap hidup, tidak exit
+} else {
+  startBot();
+}
