@@ -4,35 +4,20 @@ const config = require('../config');
 
 const IMAGES_DIR = path.join(__dirname, '..');
 
+/**
+ * Kirim menu kategori toko.
+ * Catatan: sengaja pakai teks biasa (bukan list interaktif WhatsApp),
+ * karena pesan list/tombol interaktif sering gagal tampil di banyak
+ * versi WhatsApp klien orang lain — teks biasa jauh lebih stabil.
+ */
 async function sendStoreMenu(sock, chatId, msg) {
-  const rows = Object.entries(config.categories).map(([key, cat]) => ({
-    title: `${key}. ${cat.name}`,
-    description: `${cat.products.length} produk tersedia`,
-    rowId: `toko_kategori_${key}`,
-  }));
-
-  const listMessage = {
-    text: `🛒 *${config.storeName}*\n\nSilakan pilih kategori game di bawah ini:`,
-    footer: 'Ketik nomor kategori juga bisa, contoh: 1',
-    title: 'Menu Toko',
-    buttonText: 'Lihat Kategori',
-    sections: [
-      {
-        title: 'Kategori Produk',
-        rows,
-      },
-    ],
-  };
-
-  try {
-    await sock.sendMessage(chatId, listMessage, { quoted: msg });
-  } catch (err) {
-    let text = `🛒 *${config.storeName}*\n\nBalas dengan nomor kategori:\n\n`;
-    for (const [key, cat] of Object.entries(config.categories)) {
-      text += `*${key}.* ${cat.name}\n`;
-    }
-    await sock.sendMessage(chatId, { text }, { quoted: msg });
+  let text = `🛒 *${config.storeName}*\n\nSilakan pilih kategori dengan membalas nomornya:\n\n`;
+  for (const [key, cat] of Object.entries(config.categories)) {
+    text += `*${key}.* ${cat.name} _(${cat.products.length} produk)_\n`;
   }
+  text += `\nContoh: ketik *.${Object.keys(config.categories)[0]}*`;
+
+  await sock.sendMessage(chatId, { text }, { quoted: msg });
 }
 
 async function sendCategoryProducts(sock, chatId, categoryKey, msg) {
