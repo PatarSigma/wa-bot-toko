@@ -157,6 +157,17 @@ async function startBot() {
           break;
         }
 
+case 'teks':
+case 'quote': {
+  try {
+    const { makeTextSticker } = require('./handlers/textStickerHandler');
+    await makeTextSticker(sock, msg, args);
+  } catch (err) {
+    console.error('[TEKS] Modul gagal dimuat:', err.message);
+    await sock.sendMessage(chatId, { text: '⚠️ Fitur ini sedang tidak tersedia di server ini.' }, { quoted: msg });
+  }
+  break;
+}
         case 'tiktok':
         case 'tt': {
           if (!args) {
