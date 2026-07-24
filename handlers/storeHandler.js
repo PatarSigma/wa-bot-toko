@@ -61,10 +61,16 @@ async function handleBuy(sock, chatId, productId, msg) {
     `✅ *Pesanan diterima*\n\n` +
     `Produk: ${found.name}\n` +
     `Harga: ${found.price}\n\n` +
-    `Silakan kirim:\n1. ID akun game kamu\n2. Bukti transfer\n\n` +
+    `Silakan lakukan pembayaran menggunakan QRIS di bawah ini, lalu kirim:\n1. ID akun game kamu\n2. Bukti transfer\n\n` +
     `Admin akan segera memproses pesananmu. Terima kasih! 🙏`;
 
   await sock.sendMessage(chatId, { text }, { quoted: msg });
-}
 
+  if (fs.existsSync(QRIS_PATH)) {
+    await sock.sendMessage(chatId, {
+      image: fs.readFileSync(QRIS_PATH),
+      caption: `💳 Scan QRIS ini untuk membayar *${found.price}*`,
+    });
+  }
+}
 module.exports = { sendStoreMenu, sendCategoryProducts, handleBuy };
