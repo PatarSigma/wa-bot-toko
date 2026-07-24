@@ -10,7 +10,6 @@ const config = require('./config');
 
 const { setupAntiCall } = require('./handlers/callHandler');
 const { askAI } = require('./handlers/aiHandler');
-const { makeSticker } = require('./handlers/stickerHandler');
 const { downloadTiktok, downloadInstagram } = require('./handlers/downloaderHandler');
 const { sendStoreMenu, sendCategoryProducts, handleBuy } = require('./handlers/storeHandler');
 
