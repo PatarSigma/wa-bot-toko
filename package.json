@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.23",
+    "sharp": "^0.33.5",
     "pino": "^9.4.0",
     "qrcode-terminal": "^0.12.0",
     "wa-sticker-formatter": "^4.4.4",
