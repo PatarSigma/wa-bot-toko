@@ -213,6 +213,22 @@ case 'quote': {
         case 'store':
           await sendStoreMenu(sock, chatId, msg);
           break;
+          
+          case 'ttt':
+          if (args) {
+            await moveTicTacToe(sock, chatId, msg, args.trim());
+          } else {
+            await startTicTacToe(sock, chatId, msg);
+          }
+          break;
+
+        case 'math':
+          await startMath(sock, chatId, msg);
+          break;
+
+        case 'jawab':
+          await answerMath(sock, chatId, msg, args.trim());
+          break;
 
         case 'beli':
         case 'buy':
