@@ -13,6 +13,7 @@ const { setupAntiCall } = require('./handlers/callHandler');
 const { askAI } = require('./handlers/aiHandler');
 const { downloadTiktok, downloadInstagram } = require('./handlers/downloaderHandler');
 const { sendStoreMenu, sendCategoryProducts, handleBuy } = require('./handlers/storeHandler');
+const { startTicTacToe, moveTicTacToe, startMath, answerMath } = require('./handlers/gamesHandler');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const question = (text) => new Promise((resolve) => rl.question(text, resolve));
@@ -27,6 +28,8 @@ Ketik perintah di bawah ini (pakai titik di depan):
 🎵 *.tiktok <link>* — Download video TikTok tanpa watermark
 📸 *.ig <link>* — Download foto/video Instagram
 🛒 *.toko* — Buka menu toko & lihat produk
+🎮 *.ttt* — Main Tic Tac Toe lawan bot
+🧮 *.math* — Tebak Matematika
 ❓ *.menu* — Tampilkan menu ini lagi
 
 _Bot aktif 24 jam, fast response, dan tidak menerima panggilan telepon._`;
